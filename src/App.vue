@@ -10,6 +10,7 @@
 import Todos from './components/Todos.vue'
 import Header from './components/layout/Header.vue'
 import AddTodo from './components/AddTodo.vue'
+import axios from 'axios';
 
 export default {
   name: "app",
@@ -20,23 +21,7 @@ export default {
   },
   data(){
     return {
-      todosList:[
-        {
-          id:1,
-          title:"Todo 1",
-          completed: false
-        },
-                {
-          id:2,
-          title:"Todo 2",
-          completed: true
-        },
-                {
-          id:3,
-          title:"Todo 3",
-          completed: false
-        },
-      ]
+      todosList:[]
     }
   },
   methods:{
@@ -45,6 +30,11 @@ export default {
     },
     addTodoItem(newTodoObject){
       this.todosList=[...this.todosList, newTodoObject];   
+    },
+    created(){
+      axios.get('https://jsonplaceholder.typicode.com/todos')
+      .then(response=>this.todosList = response.data)
+      .catch(err=> (alert(err)));
     }
   }
 };
