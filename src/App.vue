@@ -24,17 +24,17 @@ export default {
       todosList:[]
     }
   },
+  mounted(){
+      axios.get('https://jsonplaceholder.typicode.com/todos')
+      .then(response=>this.todosList = response.data)
+      // .catch(err=> (alert(err)));
+    },
   methods:{
     deleteTodoItem(id){
       this.todosList = this.todosList.filter(todoItem =>todoItem.id != id);
     },
     addTodoItem(newTodoObject){
       this.todosList=[...this.todosList, newTodoObject];   
-    },
-    created(){
-      axios.get('https://jsonplaceholder.typicode.com/todos')
-      .then(response=>this.todosList = response.data)
-      .catch(err=> (alert(err)));
     }
   }
 };
