@@ -24,20 +24,37 @@ export default {
       todosList:[]
     }
   },
-  mounted(){
-      axios.get('https://jsonplaceholder.typicode.com/todos')
-      .then(response=>this.todosList = response.data)
-      // .catch(err=> (alert(err)));
-    },
   methods:{
     deleteTodoItem(id){
       this.todosList = this.todosList.filter(todoItem =>todoItem.id != id);
     },
     addTodoItem(newTodoObject){
+      const {title, completed} = newTodoObject;
+      // Adding toDo by API
+      axios.post('https://jsonplaceholder.typicode.com/todos',{
+        title,
+        completed
+      })
+      .then(res => this.todosList = [...this.todosList, res.data])
+      .catch(err=> alert(err));
+
+      /* 
+      New todo is added to the bottom of the list
       this.todosList=[...this.todosList, newTodoObject];   
+      
+      Attempted to get the new todo on the top of the list
+      this.todosList= this.todosList.unshift(newTodoObject);
+      */      
+    debugger;
     }
-  }
-};
+  },
+   mounted(){
+      axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5')
+      .then(response=>this.todosList = response.data)
+      debugger
+      // .catch(err=> (alert(err)));
+    }
+}
 </script>
 
 <style>
